@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Belajar JS</title>
+    <script>
+        function otentikasi(event) {
+            // Menggunakan tanda "=" dengan benar untuk mendeklarasikan variabel
+            const admin = "admin2017";
+            const password = "qwerty";
+
+            // Mendapatkan nilai username dan password dari input
+            let uname = document.getElementById("username").value;
+            let pass = document.getElementById("pass").value;
+
+            // Memeriksa kecocokan username dan password
+            if (uname === admin && pass === password) {
+                alert("Sukses login");
+                return true;
+            } else {
+                alert("Gagal login");
+                event.preventDefault(); // Mencegah form untuk submit jika gagal
+                return false;
+            }
+        }
+    </script>
+</head>
+<body>
+    <h1>Login</h1>
+    <!-- Memanggil fungsi otentikasi saat form disubmit -->
+    <form method="post" onsubmit="return otentikasi(event)">
+        Username: <input type="text" id="username" name="username">
+        <br><br>
+        Password: <input type="password" id="pass" name="pass">
+        <br><br>
+        <input type="submit" value="Login">
+    </form>
+</body>
+</html>

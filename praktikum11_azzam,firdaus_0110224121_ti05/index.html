@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Validasi</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Form Validasi</h1>
+    <form id="ticketForm">
+        <label for="name">Nama Pelanggan:</label><br>
+        <input type="text" id="name" name="name" maxlength="30">
+        <span class="error" id="nameError"></span><br><br>
+
+        <label for="email">Email:</label><br>
+        <input type="email" id="email" name="email">
+        <span class="error" id="emailError"></span><br><br>
+
+        <label for="departureTime">Jam Keberangkatan:</label><br>
+        <input type="text" id="departureTime" name="departureTime" placeholder="hh.mm">
+        <span class="error" id="timeError"></span><br><br>
+
+        <label for="destination">Tujuan Keberangkatan:</label><br>
+        <input type="text" id="destination" name="destination">
+        <span class="error" id="destinationError"></span><br><br>
+
+        <label for="ticketCount">Jumlah Tiket:</label><br>
+        <input type="number" id="ticketCount" name="ticketCount" min="1" max="10">
+        <span class="error" id="ticketError"></span><br><br>
+
+        <button type="button" onclick="validateForm()">Submit</button>
+    </form>
+
+    <div id="result"></div>
+
+    <script>
+        function validateForm() {
+            const name = document.getElementById('name');
+            const email = document.getElementById('email');
+            const departureTime = document.getElementById('departureTime');
+            const destination = document.getElementById('destination');
+            const ticketCount = document.getElementById('ticketCount');
+
+            const nameError = document.getElementById('nameError');
+            const emailError = document.getElementById('emailError');
+            const timeError = document.getElementById('timeError');
+            const destinationError = document.getElementById('destinationError');
+            const ticketError = document.getElementById('ticketError');
+
+            let isValid = true;
+
+            // Reset error messages and styles
+            [name, email, departureTime, destination, ticketCount].forEach(field => field.classList.remove('invalid', 'valid'));
+            [nameError, emailError, timeError, destinationError, ticketError].forEach(error => error.textContent = '');
+
+            // Validate Name
+            if (!name.value.trim()) {
+                nameError.textContent = 'Nama pelanggan wajib diisi.';
+                name.classList.add('invalid');
+                isValid = false;
+            } else if (name.value.length > 30) {
+                nameError.textContent = 'Nama pelanggan maksimum 30 karakter.';
+                name.classList.add('invalid');
+                isValid = false;
+            } else {
+                name.classList.add('valid');
+            }
+
+            // Validate Email
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!email.value.trim()) {
+                emailError.textContent = 'Email wajib diisi.';
+                email.classList.add('invalid');
+                isValid = false;
+            } else if (!emailRegex.test(email.value)) {
+                emailError.textContent = 'Format email tidak valid.';
+                email.classList.add('invalid');
+                isValid = false;
+            } else {
+                email.classList.add('valid');
+            }
+
+            // Validate Departure Time
+            const timeRegex = /^([01]?\d|2[0-3])\.[0-5]\d$/;
+            if (!departureTime.value.trim()) {
+                timeError.textContent = 'Jam keberangkatan wajib diisi.';
+                departureTime.classList.add('invalid');
+                isValid = false;
+            } else if (!timeRegex.test(departureTime.value)) {
+                timeError.textContent = 'Format jam tidak valid (hh.mm).';
+                departureTime.classList.add('invalid');
+                isValid = false;
+            } else {
+                departureTime.classList.add('valid');
+            }
+
+            // Validate Destination
+            if (!destination.value.trim()) {
+                destinationError.textContent = 'Tujuan keberangkatan wajib diisi.';
+                destination.classList.add('invalid');
+                isValid = false;
+            } else {
+                destination.classList.add('valid');
+            }
+
+            // Validate Ticket Count
+            if (!ticketCount.value.trim()) {
+                ticketError.textContent = 'Jumlah tiket wajib diisi.';
+                ticketCount.classList.add('invalid');
+                isValid = false;
+            } else if (ticketCount.value < 1 || ticketCount.value > 10) {
+                ticketError.textContent = 'Jumlah tiket harus antara 1 - 10.';
+                ticketCount.classList.add('invalid');
+                isValid = false;
+            } else {
+                ticketCount.classList.add('valid');
+            }
+
+            // Display Results if Valid
+            if (isValid) {
+                const resultDiv = document.getElementById('result');
+                resultDiv.innerHTML = `
+                    <h3>Data Valid</h3>
+                    <p>Nama Pelanggan: ${name.value}</p>
+                    <p>Email: ${email.value}</p>
+                    <p>Jam Keberangkatan: ${departureTime.value}</p>
+                    <p>Tujuan Keberangkatan: ${destination.value}</p>
+                    <p>Jumlah Tiket: ${ticketCount.value}</p>
+                `;
+            }
+        }
+    </script>
+</body>
+</html>
